@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кейс-задача 4</title>
+    <title>Демонстрация обработки данных</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8; /* Мягкий синий фон */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #2c3e50; /* Темно-синий */
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* Основной контент */
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 30px;
+            background-color: #ffffff; /* Белый фон для секций */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2c3e50; /* Темно-синий */
+            border-bottom: 2px solid #ff8c42; /* Оранжевый акцент */
+            padding-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+            background-color: #f9f9f9; /* Светлый фон для полей ввода */
+        }
+
+        button {
+            padding: 10px;
+            background-color: #ff8c42; /* Оранжевый */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e67e22; /* Темно-оранжевый при наведении */
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Подвал */
+        footer {
+            background-color: #2c3e50; /* Темно-синий */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Демонстрация обработки данных</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Ввод данных</h2>
+            <textarea id="inputData" placeholder="Введите данные (каждая строка — новый элемент)"></textarea>
+            <button onclick="processData()">Обработать данные</button>
+        </section>
+        <section>
+            <h2>Результаты обработки</h2>
+            <div class="output" id="outputData">
+                <!-- Здесь будут отображаться результаты -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Кейс-задача 4</p>
+    </footer>
+
+    <script>
+        // Функция для обработки данных
+        function processData() {
+            // Получаем введенные данные
+            const inputData = document.getElementById('inputData').value;
+            const lines = inputData.split('\n').filter(line => line.trim() !== '');
+
+            // Сортировка данных
+            const sortedData = lines.slice().sort();
+
+            // Подсчет повторяющихся данных
+            const countMap = new Map();
+            lines.forEach(line => {
+                if (countMap.has(line)) {
+                    countMap.set(line, countMap.get(line) + 1);
+                } else {
+                    countMap.set(line, 1);
+                }
+            });
+
+            // Фильтрация данных: оставляем только те, которые повторяются
+            const filteredData = [];
+            countMap.forEach((count, line) => {
+                if (count > 1) {
+                    filteredData.push(`${line} (повторов: ${count})`);
+                }
+            });
+
+            // Вывод результатов
+            const outputDiv = document.getElementById('outputData');
+            outputDiv.innerHTML = `
+                <h3>Исходные данные:</h3>
+                <pre>${lines.join('\n')}</pre>
+                <h3>Отсортированные данные:</h3>
+                <pre>${sortedData.join('\n')}</pre>
+                <h3>Отфильтрованные данные (повторы):</h3>
+                <pre>${filteredData.length > 0 ? filteredData.join('\n') : 'Повторяющихся данных нет.'}</pre>
+            `;
+        }
+    </script>
+</body>
+</html>
